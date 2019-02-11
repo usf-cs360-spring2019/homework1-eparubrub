@@ -14,3 +14,15 @@
     width: 50%;
     margin-left: 25%;
 }
+
+div.bar{
+    display: inline-block;
+    width: 20px;
+    background-color: darkblue;
+    margin-right: 5px;
+}
+
+.vis{
+    min-width: 1000px;;
+    min-height: 10000px;
+}

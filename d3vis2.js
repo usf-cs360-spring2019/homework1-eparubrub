@@ -39,7 +39,7 @@ function createChart(){
     .append("svg")
     
     var width = 950;
-    var height = 300;
+    var height = 500;
     var padding = 110;
 
     svg.attr("width", width)
@@ -66,9 +66,10 @@ function createChart(){
 
     var xAxisCustom = svg.append("g")
                 .classed("xAxis", true)
-                .attr('transform', 'translate(+68, +280)')
+                .attr('transform', 'translate(+68, +480)')
                 .call(d3.axisBottom(bandScale))
-                .selectAll('.tick line').remove();
+                .selectAll('.domain, .tick line').remove();
+                
 
     var yAxis = d3.axisLeft(yScale)
                 .tickSize(-width)
@@ -77,7 +78,7 @@ function createChart(){
                  .classed("yAxis",true)
                  .attr('transform', 'translate(+68, +90)')
                  .call(yAxis)
-                //  .selectAll('.tick line').remove();
+                 .selectAll('.domain').remove();
                  
 
     svg.selectAll("rect")
@@ -110,7 +111,7 @@ function createChart(){
     
     svg.append('text')
         .attr('y', +30)
-        .attr('x', -230)
+        .attr('x', -340)
         .attr("transform", 'rotate(-90)')
         .attr('class', 'axis_label')
         .text("Number of Incidents")
@@ -120,6 +121,22 @@ function createChart(){
         .attr('x', +300)
         .attr('class', 'title')
         .text("Top 10 Categories per Number of Incidents")
+
+    svg.selectAll("text.filteredData")
+        .data(filteredData)
+        .enter()
+        .append("text")
+        .text(function(d) { return d.value; })
+        .attr("x", function(d, i){ //index multiplied by 20 to space out
+            return bandScale(d.category) + 99;
+        })
+        .attr("y", function(d){
+            return height - heightScale(d.value) - 25;
+        })
+        .attr("font-family" , "sans-serif")
+        .attr("font-size" , "11px")
+        .attr("fill" , "black")
+        .attr("text-anchor", "middle")
 
     
 

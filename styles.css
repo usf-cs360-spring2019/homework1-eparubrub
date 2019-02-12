@@ -26,3 +26,17 @@ div.bar{
     min-width: 1000px;;
     min-height: 10000px;
 }
+
+.tick line{
+    color: #DCDCDC
+}
+
+.axis_label{
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.title{
+    font-weight: 200;
+    font-size: 20px;
+}

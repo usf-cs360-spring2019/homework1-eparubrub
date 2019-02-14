@@ -15,6 +15,13 @@
     margin-left: 25%;
 }
 
+.line{
+    fill: none;
+    stroke: #4682B4;
+    stroke-width: 3;
+}
+
+
 div.bar{
     display: inline-block;
     width: 20px;
@@ -23,7 +30,7 @@ div.bar{
 }
 
 .vis{
-    min-width: 1000px;;
+    min-width: 1000px;
     min-height: 10000px;
 }
 
@@ -39,4 +46,15 @@ div.bar{
 .title{
     font-weight: 200;
     font-size: 20px;
+}
+
+.d3vis{
+    width: 100%;
+    min-height: 550px;
+    background-color: lightgray;
+    border-style: solid;
+    border-width: 2px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
 }

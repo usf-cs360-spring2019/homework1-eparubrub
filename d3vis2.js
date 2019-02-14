@@ -7,7 +7,7 @@ d3.csv("policeData.csv").then(function(data){
     data.forEach(function(d){
         d["Incident Time"] = format(d["Incident Time"]);
     });
-    console.log(data[0]);
+    // console.log(data[0]);
     //get occurrences of a specific field
     for (var i = 0; i < data.length; i++) {
         occurrences[data[i]["Incident Category"]] = (occurrences[data[i]["Incident Category"]] || 0) + 1;
@@ -30,11 +30,11 @@ d3.csv("policeData.csv").then(function(data){
         }
         filteredData.push(object);
     }
-    console.log(filteredData);
-    createChart();
+    // console.log(filteredData);
+    createChart2();
 });
 
-function createChart(){
+function createChart2(){
     svg = d3.select("#vis2")
     .append("svg")
     
@@ -141,19 +141,7 @@ function createChart(){
     
 
 
-
-    // //x axis
-    // svg.append("g")
-    //     .attr("transform", "translate(0," + height + ")")
-    //     .call(d3.axisBottom(bandScale));
-    
-    // // add the y Axis
-    // svg.append("g")
-    //     .call(d3.axisLeft(heightScale));
-
-
-    
-
+        
     //SORTING FUNCTION FOR LATER ON
     
     // d3.select("input")

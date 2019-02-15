@@ -58,3 +58,8 @@ div.bar{
     margin-right: auto;
     margin-bottom: 10px;
 }
+
+.extra_time{
+    font-size: 10px;
+    fill: #3F3F3F;
+}

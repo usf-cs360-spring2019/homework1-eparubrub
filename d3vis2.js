@@ -2,12 +2,13 @@ var occurrences = {};
 var filteredData = [];
 var len, svg, bandScale;
 
+//collect and filter data
 d3.csv("policeData.csv").then(function(data){
     var format = d3.timeParse("%H:%M");
     data.forEach(function(d){
         d["Incident Time"] = format(d["Incident Time"]);
     });
-    // console.log(data[0]);
+
     //get occurrences of a specific field
     for (var i = 0; i < data.length; i++) {
         occurrences[data[i]["Incident Category"]] = (occurrences[data[i]["Incident Category"]] || 0) + 1;
@@ -30,65 +31,67 @@ d3.csv("policeData.csv").then(function(data){
         }
         filteredData.push(object);
     }
-    // console.log(filteredData);
     createChart2();
 });
 
 function createChart2(){
     svg = d3.select("#vis2")
-    .append("svg")
+        .append("svg")
     
-    var width = 950;
-    var height = 500;
-    var padding = 110;
+    var width = 950
+    , height = 500
+    , padding = 110;
 
     svg.attr("width", width)
        .attr("height", height)
 
+    //maps category name to a variable
     var category_names = filteredData.map(function(d){
         return d.category;
     })
 
+    //bar scale
     bandScale = d3.scaleBand()
-                      .domain(category_names)
-                      .range([0,width - padding])
-                      .padding(0.3);
+        .domain(category_names)
+        .range([0,width - padding])
+        .padding(0.3);
 
+    //height scale
     var heightScale = d3.scaleLinear()
-                        .domain([0, 4000])
-                        .range([0,height - padding]);
+        .domain([0, 4000])
+        .range([0,height - padding]);
 
+    //scale for the y axis
     var yScale = d3.scaleLinear()
-                        .domain([0, 4000])
-                        .range([height - padding, 0]);
-
-
-
-    var xAxisCustom = svg.append("g")
-                .classed("xAxis", true)
-                .attr('transform', 'translate(+68, +480)')
-                .call(d3.axisBottom(bandScale))
-                .selectAll('.domain, .tick line').remove();
-                
-
+        .domain([0, 4000])
+        .range([height - padding, 0]);
+    
     var yAxis = d3.axisLeft(yScale)
-                .tickSize(-width)
+        .tickSize(-width)
 
-    var yAxisCustomize = svg.append("g")
-                 .classed("yAxis",true)
-                 .attr('transform', 'translate(+68, +90)')
-                 .call(yAxis)
-                 .selectAll('.domain').remove();
+    //adds the x axis and cusomizations
+    svg.append("g")
+        .classed("xAxis", true)
+        .attr('transform', 'translate(+68, +480)')
+        .call(d3.axisBottom(bandScale))
+        .selectAll('.domain, .tick line').remove();
+
+    //adds the y axis and cusomizations
+    svg.append("g")
+        .classed("yAxis",true)
+        .attr('transform', 'translate(+68, +90)')
+        .call(yAxis)
+        .selectAll('.domain').remove();
                  
-
+    //bar creation and customization
     svg.selectAll("rect")
         .data(filteredData)
         .enter()
         .append("rect")
-        .attr("x", function(d, i){ //index multiplied by 20 to space out
+        .attr("x", function(d, i){ 
             return bandScale(d.category) + 70;
         })
-        .attr("y", function(d){//flip the x axis because it naturally grows down
+        .attr("y", function(d){
             return height - heightScale(d.value) - 20;
         })
         .attr("width", function(d){
@@ -103,6 +106,7 @@ function createChart2(){
             return d.category;
         })
     
+    //text labels
     svg.append('text')
         .attr('y', +70)
         .attr('x', +450)
@@ -122,12 +126,13 @@ function createChart2(){
         .attr('class', 'title')
         .text("Top 10 Categories per Number of Incidents")
 
+    //adds numbers to the tops of the bars
     svg.selectAll("text.filteredData")
         .data(filteredData)
         .enter()
         .append("text")
         .text(function(d) { return d.value; })
-        .attr("x", function(d, i){ //index multiplied by 20 to space out
+        .attr("x", function(d){
             return bandScale(d.category) + 99;
         })
         .attr("y", function(d){
@@ -137,48 +142,6 @@ function createChart2(){
         .attr("font-size" , "11px")
         .attr("fill" , "black")
         .attr("text-anchor", "middle")
-
-    
-
-
-        
-    //SORTING FUNCTION FOR LATER ON
-    
-    // d3.select("input")
-    //   .on("change", toggleSort);
-
-    // function toggleSort(){
-
-    //     var sortComparer;
-    //     if (this.checked) {
-    //         //sort by occurrences
-    //         sortComparer = function(a,b){
-    //             return b.category - a.category;
-    //         }
-    //     }
-    //     else{
-    //         //sort by original order
-    //         sortComparer = function(a,b){
-    //             return a.category - b.category;
-    //         }
-    //     }
-
-    //     filteredData.sort(sortComparer);
-    //     var categoryOrder = filteredData.map(function(d){
-    //         return d.category;
-    //     });
-
-    //     bandScale.domain(categoryOrder);
-
-    //     svg.transition()
-    //        .selectAll("rect")
-    //        .attr("x", function(d){
-    //             return bandScale(d.category)
-    //        });
-    // }
-
-    
-
 }
 
 
